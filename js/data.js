@@ -1,9 +1,9 @@
 
 var headerText = "htw-Video-Konferenzen-Bingo™";
 
-var footerText = "Viel Spaß! <a href=\"https://github.com/amiede/htwbingo/\">Quellcode bei GitHub verfügbar.</a>";
+var footerText = "Viel Spaß! <br/> <a href=\"https://github.com/amiede/htwbingo/\">Quellcode bei GitHub verfügbar.</a>";
 
-var winText = "Gewonnen! Seite neu laden für ein neues Spiel.";
+var winText = "Gewonnen! <br/> Seite neu laden für ein neues Spiel.";
 
 var clickSnd = new Audio("audio/click.mp3");
 

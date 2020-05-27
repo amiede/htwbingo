@@ -18,7 +18,8 @@ body {
 }
 
 #container {
-	width: 840px;
+	/*width: 840px;*/
+	width: 60em;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -28,7 +29,8 @@ body {
 #header, #footer {
 	display: block;
 	float: left;
-	width: 800px;
+	/*width: 800px;*/
+	width: 18em;
 	color: #8B3E2F;
 	opacity: 0.5;
 	text-shadow: 0px 1px 0px #e1e1e1, 0px -1px 0px #313131;
@@ -59,7 +61,8 @@ body {
 #board {
 	display: block;
 	float: left;
-	width: 840px;
+	/*width: 840px;*/
+	width: 53em;
 	background-color: #fff;
 	margin-bottom: 10px;
 	box-shadow: 0px 3px #919191;
@@ -72,8 +75,10 @@ body {
 	background-color: #fff;
 	color: #313131;
 	text-align: center;
-	width: 160px;
-	height: 160px;
+	/*width: 160px;
+	height: 160px;*/
+	width: 10em;
+	height: 10em;
 	padding: 3px;
 	border: 1px solid #d1d1d1;
 	transition-property: background-color;
