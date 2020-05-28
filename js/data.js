@@ -31,7 +31,7 @@ var JSONBingo = {"squares": [
         {"square": "\"Mein Netz ist schwach.\""},
         {"square": "\"Warten wir noch kurz, vielleicht kommt noch jemand.\""},
         {"square": "BENUTZER hat den Anruf verlassen"},
-        {"square": "\"MS Teams ist super.\""},
+        {"square": "Schweres Atmen"},
         {"square": "\"Big Blue Button ist super.\""},
         {"square": "\"Moodle ist super.\""}   	
     ]
