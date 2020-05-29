@@ -33,6 +33,6 @@ var JSONBingo = {"squares": [
         {"square": "BENUTZER hat den Anruf verlassen"},
         {"square": "Schweres Atmen"},
         {"square": "\"Big Blue Button ist super.\""},
-        {"square": "\"Moodle ist super.\""}   	
+        {"square": "\"Könnte bitte mal jemand sein Mikrofon einschalten?\""}   	
     ]
 };
