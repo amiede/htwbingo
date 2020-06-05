@@ -1,68 +1,104 @@
-
 $(document).ready(function() {
+	
+	var winCounter = 0;
+	
+	// get available flavors
+	var availFlavors = getFlavors(JSONBingo.squares);
+	
+	// get flavor from request or default
+	var flavor = getParam("flavor");
+	if(typeof flavor == "undefined" || !availFlavors.includes(flavor)) flavor = availFlavors[0];
+	console.debug("flavor: " + flavor);
+	
+	var selElem = document.getElementById('flavor');
+	for(var i = 0; i < availFlavors.length; i++) {
+		var opt = document.createElement('option');
+		opt.innerHTML = flavOptText + availFlavors[i];
+		opt.value = availFlavors[i];
+		opt.selected = availFlavors[i] == flavor;
+		selElem.appendChild(opt);
+	}
 	
 	$('body').on('touchmove', false);
 	
+	// set header/footer
 	$('#header').append(headerText);
-	
 	$('#footer').append(footerText);
 
-	shuffle(JSONBingo.squares);
+	// filter
+	var relSquares = filter(JSONBingo.squares, flavor);
+	console.debug("texts for flavor: " + relSquares.length);
 	
-	winner = 0;
+	shuffle(relSquares);
 	
-	for (i=0; i<24; i++)	{
-	
-		if (i==12) {
-			$('#board').append("<div data-value='1' class='selected freesquare' id='sqfree'><div class='text'><br/>Joker</div></div>");
-			$('#board').append("<div data-value='0' class='square' id='sq12'><div class='text'><br/>"+JSONBingo.squares[i].square+"</div></div>");
-		} else {
-			$('#board').append("<div data-value='0' class='square' id='sq"+i+"'><div class='text'><br/>"+JSONBingo.squares[i].square+"</div></div>");
+	// build board
+	for (r = 0; r < SIZE; r++) {
+		for (c = 0; c < SIZE; c++) {
+			var text = isJoker(r, c) ? jokerText : relSquares[getIdx(r, c) % relSquares.length].square;
+			var defVal = isJoker(r, c) ? 1 : 0;
+			var cls = isJoker(r, c) ? "selected freesquare" : "square";
+			$('#board').append("<div data-value='" + defVal + "' class='" + cls + "' id='" 
+				+ getSqId(r ,c) + "'><div class='text'><br/>" + text +"</div></div>");
 		}
-  }
+	}
+	
+	// adapt square dimensions to size of board, assuming board has dim of 100vmin x 100vmin in CSS
+	var sqElems = document.querySelectorAll('.square, .freesquare');
+	for(var i=0; i < sqElems.length; i++){
+		sqElems[i].style.width = (100 / SIZE) + "vmin";
+		sqElems[i].style.height = (100 / SIZE) + "vmin";
+	}
 
 	$('div.square').tappable(function () {
+		
       $(this).toggleClass('selected');
+	  
       if ($(this).data('value') == 1) {
-            //alert(event.target.id);
       		$(this).data('value', 0); }
       else {
-            //alert(event.target.id);
       		$(this).data('value', 1); }
       		
-         clickSnd.play();
-
-		var row1 = ($('#sq0').data('value')+$('#sq1').data('value')+$('#sq2').data('value')+$('#sq3').data('value')+$('#sq4').data('value'));
-		var row2 = ($('#sq5').data('value')+$('#sq6').data('value')+$('#sq7').data('value')+$('#sq8').data('value')+$('#sq9').data('value'));
-		var row3 = ($('#sq10').data('value')+$('#sq11').data('value')+$('#sqfree').data('value')+$('#sq12').data('value')+$('#sq13').data('value'));
-		var row4 = ($('#sq14').data('value')+$('#sq15').data('value')+$('#sq16').data('value')+$('#sq17').data('value')+$('#sq18').data('value'));	
-		var row5 = ($('#sq19').data('value')+$('#sq20').data('value')+$('#sq21').data('value')+$('#sq22').data('value')+$('#sq23').data('value'));			
-
-		var col1 = ($('#sq0').data('value')+$('#sq5').data('value')+$('#sq10').data('value')+$('#sq14').data('value')+$('#sq19').data('value'));
-		var col2 = ($('#sq1').data('value')+$('#sq6').data('value')+$('#sq11').data('value')+$('#sq15').data('value')+$('#sq20').data('value'));
-		var col3 = ($('#sq2').data('value')+$('#sq7').data('value')+$('#sqfree').data('value')+$('#sq16').data('value')+$('#sq21').data('value'));
-		var col4 = ($('#sq3').data('value')+$('#sq8').data('value')+$('#sq12').data('value')+$('#sq17').data('value')+$('#sq22').data('value'));	
-		var col5 = ($('#sq4').data('value')+$('#sq9').data('value')+$('#sq13').data('value')+$('#sq18').data('value')+$('#sq23').data('value'));			
-
-		var diag1 = ($('#sq0').data('value')+$('#sq6').data('value')+$('#sqfree').data('value')+$('#sq17').data('value')+$('#sq23').data('value'));	
-		var diag2 = ($('#sq4').data('value')+$('#sq8').data('value')+$('#sqfree').data('value')+$('#sq15').data('value')+$('#sq19').data('value'));	
-		
-		if (row1 == 5 || row2 == 5 || row3 == 5 || row4 == 5 || row5 == 5 || col1 == 5 || col2 == 5 || col3 == 5  || col4 == 5  || col5 == 5 || diag1 == 5 || diag2 == 5) {
-			
-			winner++;
-			
+        clickSnd.play();
+		 
+		var hasWon = false;
+		 
+		// check rows
+		for (var r = 0; r < SIZE; r++) {
+			var sum = 0;
+			for (c = 0; c < SIZE; c++) {
+				sum += $('#' + getSqId(r ,c)).data('value');
+			}
+			hasWon = hasWon | (sum == SIZE);
 		}
-			
-		if (winner == 1) {
+		
+		// check cols
+		for (var c = 0; c < SIZE; c++) {
+			var sum = 0;
+			for (r = 0; r < SIZE; r++) {
+				sum += $('#' + getSqId(r ,c)).data('value');
+			}
+			hasWon = hasWon | (sum == SIZE);
+		}
+		
+		// check diags
+		var sum = 0;
+		for (var i = 0; i < SIZE; i++) {
+			sum += $('#' + getSqId(i ,i)).data('value');
+		}
+		hasWon = hasWon | (sum == SIZE);
+		var sum = 0;
+		for (var i = 0; i < SIZE; i++) {
+			sum += $('#' + getSqId(SIZE - 1 - i ,i)).data('value');
+		}
+		hasWon = hasWon | (sum == SIZE);
+		
+		if (hasWon) {
 			$('#header').html(winText);
 			$('#header').addClass("win");
-	
-         	winSnd.play();
-			
-			winner == false;
-    	} else if (winner > 1) {
-			$('#header').html(postWinText);
-			$('#header').addClass("win");	
+         	if (winCounter < 1) {
+				winSnd.play();
+			}
+			winCounter++;
     	} else {
 			$('#header').html(headerText);
 			$('#header').removeClass("win");
@@ -71,43 +107,47 @@ $(document).ready(function() {
         
 });
 
-
-shuffle = function(v){
-    	for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
-    	return v;
+getParam = function(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(name[1]);
 };
 
-/*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
-(function( win ){
-	var doc = win.document;
-	
-	// If there's a hash, or addEventListener is undefined, stop here
-	if( !location.hash && win.addEventListener ){
-		
-		//scroll to 1
-		window.scrollTo( 0, 1 );
-		var scrollTop = 1,
-			getScrollTop = function(){
-				return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
-			},
-		
-			//reset to 0 on bodyready, if needed
-			bodycheck = setInterval(function(){
-				if( doc.body ){
-					clearInterval( bodycheck );
-					scrollTop = getScrollTop();
-					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-				}	
-			}, 15 );
-		
-		win.addEventListener( "load", function(){
-			setTimeout(function(){
-				//at load, if user hasn't scrolled more than 20 or so...
-				if( getScrollTop() < 20 ){
-					//reset to hide addr bar at onload
-					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-				}
-			}, 0);
-		} );
+isJoker = function(r, c) {
+	return (USE_JOKER && r == Math.floor(SIZE / 2) && c == Math.floor(SIZE / 2));
+};
+
+getIdx = function(r, c) {
+	return r * SIZE + c;
+};
+
+getSqId = function(r, c) {
+	return "sq_" + r + "_" + c;
+};
+
+shuffle = function(v){
+    for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+};
+
+filter = function(v, flavor) {
+	var j = 0;
+	var res = [];
+	for (var i = 0; i < v.length; i++) {
+		if ('flavors' in v[i] && v[i].flavors.includes(flavor)) {
+			res.push(v[i]);
+		}
 	}
-})( this );
+	return res;
+};
+
+getFlavors = function(v, flavor) {
+	var res = [];
+	for (var i = 0; i < v.length; i++) {
+		if ('flavors' in v[i]) {
+			for (var j = 0; j < v[i].flavors.length; j++) {
+				if (!res.includes(v[i].flavors[j])) res.push(v[i].flavors[j]);
+			}
+		}
+	}
+	return res;
+};

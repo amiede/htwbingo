@@ -1,0 +1,135 @@
+@font-face { 
+	font-family: "Roboto"; 
+	src: url("roboto-v20-latin-500.woff") format('woff'), url("roboto-v20-latin-500.ttf") format('truetype'); 
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+body {
+	background-color: #a1a1a1;
+	background-image: url('../img/wood-bg.png');
+	font-family: "Roboto", sans-serif;
+	text-rendering: optimizeLegibility;
+	hyphens: auto;
+}
+
+select {
+	font-family: "Roboto", sans-serif;
+	font-size: 3.5vmin;
+	padding: 0.25em;
+	opacity: 0.6;
+}
+
+#container {
+	width: 100vmin;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: none;
+}
+
+#header, #footer  {
+	text-align: center;
+	display: block;
+	float: left;
+	width: 100vmin;
+	color: #8B3E2F;
+	opacity: 0.5;
+	text-shadow: 0 0.05em 0 #e1e1e1, 0 -0.05em 0 #313131;
+   	background-color: none;
+	padding: 0.2em 0;
+	transition-property: background-color;
+	transition-duration: 1s;
+	-moz-transition-property: background-color;
+	-moz-transition-duration: 1s;
+	-webkit-transition-property: background-color;
+	-webkit-transition-duration: 1s;
+}
+
+#header {
+	font-size: 4vmin;
+	font-weight: bold;
+}
+
+#footer {
+	font-size: 2.5vmin;
+	padding: 0.2em 0;
+	margin-bottom: 1em;
+}
+
+#footer a {
+	text-decoration: underline;
+	color: #8B3E2F;
+}
+
+#selFlavor {
+	text-align: center;
+	display: block;
+	float: left;
+	width: 100vmin;
+}
+
+#board {
+	display: block;
+	float: left;
+	width: 100vmin;
+	background-color: #fff;
+	margin-bottom: 0.5em;
+	box-shadow: 0 0.1em #919191;
+}
+
+.square:hover {
+	background-color: #d1d1d1;
+}
+
+.square, .freesquare {
+	display: block;
+	float: left;
+	overflow: hidden;
+	background-color: #fff;
+	color: #313131;
+	text-align: center;
+	width: 20vmin;
+	height: 20vmin;
+	padding: 0.2 0.3em;
+	border: 0.2vmin solid #d1d1d1;
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	transition-property: background-color;
+	transition-duration: 1s;
+	-moz-transition-property: background-color;
+	-moz-transition-duration: 1s;
+	-webkit-transition-property: background-color;
+	-webkit-transition-duration: 1s;
+}
+
+.selected {
+	color: #f1f1f1;
+	background-color: #313131;
+}
+
+.selected:hover {
+	background-color: #313131;
+}
+
+.text {
+	font-family: "Roboto", sans-serif;
+	font-size: 2.5vmin;
+	line-height: 120%;
+}
+
+.win {
+	color: #ffffff !important;
+   	background-color: red;
+}
