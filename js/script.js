@@ -10,6 +10,7 @@ $(document).ready(function() {
 	if(typeof flavor == "undefined" || !availFlavors.includes(flavor)) flavor = availFlavors[0];
 	console.debug("flavor: " + flavor);
 	
+	// add options for flavor select
 	var selElem = document.getElementById('flavor');
 	for(var i = 0; i < availFlavors.length; i++) {
 		var opt = document.createElement('option');
@@ -25,10 +26,9 @@ $(document).ready(function() {
 	$('#header').append(headerText);
 	$('#footer').append(footerText);
 
-	// filter
+	// filter and shuffle texts
 	var relSquares = filter(JSONBingo.squares, flavor);
 	console.debug("texts for flavor: " + relSquares.length);
-	
 	shuffle(relSquares);
 	
 	// build board
@@ -47,6 +47,12 @@ $(document).ready(function() {
 	for(var i=0; i < sqElems.length; i++){
 		sqElems[i].style.width = (100 / SIZE) + "vmin";
 		sqElems[i].style.height = (100 / SIZE) + "vmin";
+	}
+	
+	// adapt square text font size to size of board, assuming 2.5vmin for 5 x 5 board
+	var txtElems = document.querySelectorAll('.text');
+	for(var i=0; i < txtElems.length; i++){
+		txtElems[i].style.fontSize = (12.5 / SIZE) + "vmin";
 	}
 
 	$('div.square').tappable(function () {
@@ -113,7 +119,7 @@ getParam = function(name){
 };
 
 isJoker = function(r, c) {
-	return (USE_JOKER && r == Math.floor(SIZE / 2) && c == Math.floor(SIZE / 2));
+	return (SIZE % 2 == 1 && USE_JOKER && r == Math.floor(SIZE / 2) && c == Math.floor(SIZE / 2));
 };
 
 getIdx = function(r, c) {

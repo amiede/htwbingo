@@ -1,7 +1,7 @@
-// define size; should be an odd number if joker is active
+// define size of the board; recommended range is 3..7
 const SIZE = 5;
-// define whether joker is active or not
-const USE_JOKER = true;
+// define whether joker is active or not; defaults to _false_ for _even_ board sizes
+const USE_JOKER = false;
 
 // define captions
 var headerText = "<img src='img/htwsaar.png' alt='htw saar' />&nbsp;Video-Konferenzen-Bingo™";
@@ -19,7 +19,7 @@ var winSnd = new Audio("audio/win.mp3");
 // define square texts
 var JSONBingo = {"squares": 
 [
-{"square":"\"Ich kam nicht in die Telko rein.\"","flavors":["Sitzung"]},
+{"square":"\"Ich kam nicht in die Session rein.\"","flavors":["Sitzung"]},
 {"square":"\"Kannst du bitte größer machen?\"","flavors":["Sitzung"]},
 {"square":"\"Wer tippt denn da ständig?\"","flavors":["Vorlesung","Sitzung"]},
 {"square":"\"Könnt ihr meinen Bildschirm sehen?\"","flavors":["Vorlesung","Sitzung"]},
@@ -59,6 +59,7 @@ var JSONBingo = {"squares":
 {"square":"\"Könnte bitte mal jemand sein Mikrofon einschalten?\"","flavors":["Vorlesung","Sitzung"]},
 {"square":"\"Kann man das geteilte Fenster sehen?\"","flavors":["Vorlesung","Sitzung"]},
 {"square":"*Jemand flucht über Microsoft*","flavors":["Vorlesung","Sitzung"]},
+{"square":"*Ein Laptop-Lüfter dröhnt wie ein LKW*","flavors":["Vorlesung","Sitzung"]},
 {"square":"*AWP | Dragon Lore wird erwaehnt*","flavors":["Miede2017"]},
 {"square":"*Fnord*","flavors":["Miede2017"]},
 {"square":"*Taleb wird erwaehnt*","flavors":["Miede2017"]},
