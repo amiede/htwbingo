@@ -60,6 +60,8 @@ var JSONBingo = {"squares":
 {"square":"\"Kann man das geteilte Fenster sehen?\"","flavors":["Vorlesung","Sitzung"]},
 {"square":"*Jemand flucht über Microsoft*","flavors":["Vorlesung","Sitzung"]},
 {"square":"*Ein Laptop-Lüfter dröhnt wie ein LKW*","flavors":["Vorlesung","Sitzung"]},
+{"square":"*Im Hintergrund singt ein Kind*","flavors":["Vorlesung","Sitzung"]},
+{"square":"\"Du bist etwas unscharf.\"","flavors":["Sitzung"]},
 {"square":"*AWP | Dragon Lore wird erwaehnt*","flavors":["Miede2017"]},
 {"square":"*Fnord*","flavors":["Miede2017"]},
 {"square":"*Taleb wird erwaehnt*","flavors":["Miede2017"]},
