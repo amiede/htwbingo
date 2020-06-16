@@ -71,6 +71,8 @@ var JSONBingo = {"squares":
 {"square":"\"Par ordre du mufti.\"","flavors":["Sitzung"]},
 {"square":"\"X ist nicht vergnügungs&hyphen;steuerpflichtig.\"","flavors":["Sitzung"]},
 {"square":"\"Wie sieht eigentlich der Plan für X aus?\"","flavors":["Sitzung"]},
+{"square":"\"Man muss Ross und Reiter kennen.\"","flavors":["Sitzung"]},
+{"square":"\"Das ist alles wischi-waschi.\"","flavors":["Sitzung"]},
 {"square":"*AWP | Dragon Lore wird erwaehnt*","flavors":["PIB2017"]},
 {"square":"*Fnord*","flavors":["PIB2017"]},
 {"square":"*Taleb wird erwaehnt*","flavors":["PIB2017"]},
