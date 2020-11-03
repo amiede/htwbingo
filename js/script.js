@@ -63,15 +63,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     txtElems[i].style.fontSize = 12.5 / SIZE + "vmin";
   }
 
-  document.querySelector("div.square");
-
   $("div.square").tappable(function () {
     this.classList.toggle("selected");
 
-    if ($(this).data("value") == 1) {
-      $(this).data("value", 0);
+    if (this.getAttribute('data-value') == 1) {
+      this.setAttribute('data-value', '1');
     } else {
-      $(this).data("value", 1);
+      this.setAttribute('data-value', '1');
     }
 
     clickSnd.play();
@@ -82,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     for (var r = 0; r < SIZE; r++) {
       var sum = 0;
       for (c = 0; c < SIZE; c++) {
-        sum += $("#" + getSqId(r, c)).data("value");
+        sum += parseInt(document.querySelector("#" + getSqId(r, c)).getAttribute('data-value'))
       }
       hasWon = hasWon | (sum == SIZE);
     }
@@ -91,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     for (var c = 0; c < SIZE; c++) {
       var sum = 0;
       for (r = 0; r < SIZE; r++) {
-        sum += $("#" + getSqId(r, c)).data("value");
+        sum += parseInt(document.querySelector("#" + getSqId(r, c)).getAttribute('data-value'))
       }
       hasWon = hasWon | (sum == SIZE);
     }
@@ -99,12 +97,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
     // check diags
     var sum = 0;
     for (var i = 0; i < SIZE; i++) {
-      sum += $("#" + getSqId(i, i)).data("value");
+      sum += parseInt(document.querySelector("#" + getSqId(i, i)).getAttribute('data-value'));
     }
     hasWon = hasWon | (sum == SIZE);
     var sum = 0;
     for (var i = 0; i < SIZE; i++) {
-      sum += $("#" + getSqId(SIZE - 1 - i, i)).data("value");
+      sum += parseInt(document.querySelector("#" + getSqId(SIZE - 1 - i, i)).getAttribute('data-value'));
     }
     hasWon = hasWon | (sum == SIZE);
 
