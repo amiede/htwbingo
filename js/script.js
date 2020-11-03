@@ -63,61 +63,78 @@ document.addEventListener("DOMContentLoaded", function (event) {
     txtElems[i].style.fontSize = 12.5 / SIZE + "vmin";
   }
 
-  $("div.square").tappable(function () {
-    this.classList.toggle("selected");
+  var squareElements = document.querySelectorAll("div.square");
+  for (var i = 0; i < squareElements.length; i++) {
+    squareElements[i].addEventListener("click", function (event) {
+      this.classList.toggle("selected");
 
-    if (this.getAttribute('data-value') == 1) {
-      this.setAttribute('data-value', '1');
-    } else {
-      this.setAttribute('data-value', '1');
-    }
+      if (this.getAttribute("data-value") == 1) {
+        this.setAttribute("data-value", "1");
+      } else {
+        this.setAttribute("data-value", "1");
+      }
 
-    clickSnd.play();
+      clickSnd.play();
 
-    var hasWon = false;
+      var hasWon = false;
 
-    // check rows
-    for (var r = 0; r < SIZE; r++) {
+      // check rows
+      for (var r = 0; r < SIZE; r++) {
+        var sum = 0;
+        for (c = 0; c < SIZE; c++) {
+          sum += parseInt(
+            document
+              .querySelector("#" + getSqId(r, c))
+              .getAttribute("data-value")
+          );
+        }
+        hasWon = hasWon | (sum == SIZE);
+      }
+
+      // check cols
+      for (var c = 0; c < SIZE; c++) {
+        var sum = 0;
+        for (r = 0; r < SIZE; r++) {
+          sum += parseInt(
+            document
+              .querySelector("#" + getSqId(r, c))
+              .getAttribute("data-value")
+          );
+        }
+        hasWon = hasWon | (sum == SIZE);
+      }
+
+      // check diags
       var sum = 0;
-      for (c = 0; c < SIZE; c++) {
-        sum += parseInt(document.querySelector("#" + getSqId(r, c)).getAttribute('data-value'))
+      for (var i = 0; i < SIZE; i++) {
+        sum += parseInt(
+          document.querySelector("#" + getSqId(i, i)).getAttribute("data-value")
+        );
       }
       hasWon = hasWon | (sum == SIZE);
-    }
-
-    // check cols
-    for (var c = 0; c < SIZE; c++) {
       var sum = 0;
-      for (r = 0; r < SIZE; r++) {
-        sum += parseInt(document.querySelector("#" + getSqId(r, c)).getAttribute('data-value'))
+      for (var i = 0; i < SIZE; i++) {
+        sum += parseInt(
+          document
+            .querySelector("#" + getSqId(SIZE - 1 - i, i))
+            .getAttribute("data-value")
+        );
       }
       hasWon = hasWon | (sum == SIZE);
-    }
 
-    // check diags
-    var sum = 0;
-    for (var i = 0; i < SIZE; i++) {
-      sum += parseInt(document.querySelector("#" + getSqId(i, i)).getAttribute('data-value'));
-    }
-    hasWon = hasWon | (sum == SIZE);
-    var sum = 0;
-    for (var i = 0; i < SIZE; i++) {
-      sum += parseInt(document.querySelector("#" + getSqId(SIZE - 1 - i, i)).getAttribute('data-value'));
-    }
-    hasWon = hasWon | (sum == SIZE);
-
-    if (hasWon) {
-      document.querySelector("#header").innerHTML = winText;
-      document.querySelector("#header").classList.add("win");
-      if (winCounter < 1) {
-        winSnd.play();
+      if (hasWon) {
+        document.querySelector("#header").innerHTML = winText;
+        document.querySelector("#header").classList.add("win");
+        if (winCounter < 1) {
+          winSnd.play();
+        }
+        winCounter++;
+      } else {
+        document.querySelector("#header").innerHTML = headerText;
+        document.querySelector("#header").classList.remove("win");
       }
-      winCounter++;
-    } else {
-      document.querySelector("#header").innerHTML = headerText;
-      document.querySelector("#header").classList.remove("win");
-    }
-  });
+    });
+  }
 });
 
 getParam = function (name) {
